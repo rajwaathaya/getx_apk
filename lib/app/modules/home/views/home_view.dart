@@ -113,7 +113,36 @@ class HomeView extends GetView<HomeController> {
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
             ),
-          )
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    // Tambahkan logika ketika tombol "Add Product" ditekan
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    fixedSize: Size(190, 40),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Add New Product",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Icon(
+                        Icons.add_circle_outline_rounded,
+                        color: Colors.white,
+                      ),
+                    ],
+                  )),
+            ),
+          ),
         ],
       ),
     );
