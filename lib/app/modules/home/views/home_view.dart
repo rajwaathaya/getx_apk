@@ -3,16 +3,29 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text(
-          'Rajwa Store',
-          style: TextStyle(color: Colors.black),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/logo.png',
+              width: 40,
+              height: 40,
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Text(
+              'Rajwa Store',
+              style: TextStyle(color: Colors.black),
+            ),
+          ],
         ),
         centerTitle: true,
       ),
@@ -22,21 +35,33 @@ class HomeView extends GetView<HomeController> {
             padding: const EdgeInsets.all(20.0),
             child: Row(
               children: [
-                Expanded(
+                // SEACRH
+                Container(
+                  margin: EdgeInsets.only(top: 15),
+                  width: 250,
+                  height: 36,
                   child: TextField(
                     decoration: InputDecoration(
-                      hintText: 'Search...',
+                      hintText: 'Search Product',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                       suffixIcon: Icon(Icons.search),
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
+                        vertical: 10.0,
+                        horizontal: 20.0,
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(width: 40), // Spasi antara Search dan Filter
-                Expanded(
+
+                SizedBox(width: 10),
+
+                // FILTER
+                Container(
+                  margin: EdgeInsets.only(top: 15),
+                  width: 101,
+                  height: 36,
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Filter',
@@ -45,38 +70,50 @@ class HomeView extends GetView<HomeController> {
                       ),
                       suffixIcon: Icon(Icons.filter_list),
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
+                        vertical: 10.0,
+                        horizontal: 20.0,
+                      ),
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),
+
+          // CARD
           Expanded(
-            child: ListView(
-              children: [
-                GridView.builder(
-                  padding: EdgeInsets.all(30),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 30.0, // Spasi horizontal antara item
-                    mainAxisSpacing: 30.0, // Spasi vertikal antara item
+            child: GridView.builder(
+              padding: EdgeInsets.all(20),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+              ),
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                final product = homeController.products[index];
+
+                return Container(
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      )
+                    ],
                   ),
-                  itemCount: 6,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 5,
-                      child: Center(
-                        child: Text('Item $index'),
-                      ),
-                    );
-                  },
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                ),
-              ],
+                );
+              },
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
             ),
-          ),
+          )
         ],
       ),
     );
