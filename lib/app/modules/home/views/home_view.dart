@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_apk/app/modules/detail/views/detail_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -23,7 +24,10 @@ class HomeView extends GetView<HomeController> {
             ),
             Text(
               'Rajwa Store',
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'Poppins Extra Bold',
+              ),
             ),
           ],
         ),
@@ -34,22 +38,26 @@ class HomeView extends GetView<HomeController> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 // SEACRH
-                Container(
-                  margin: EdgeInsets.only(top: 15),
-                  width: 250,
-                  height: 36,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search Product',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      suffixIcon: Icon(Icons.search),
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 20.0,
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    width: 373,
+                    height: 36,
+                    margin: EdgeInsets.only(top: 10),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search Product',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        suffixIcon: Icon(Icons.search),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 20.0,
+                        ),
                       ),
                     ),
                   ),
@@ -58,24 +66,27 @@ class HomeView extends GetView<HomeController> {
                 SizedBox(width: 10),
 
                 // FILTER
-                Container(
-                  margin: EdgeInsets.only(top: 15),
-                  width: 101,
-                  height: 36,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Filter',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      suffixIcon: Icon(Icons.filter_list),
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 20.0,
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    width: 101,
+                    height: 36,
+                    margin: EdgeInsets.only(top: 10),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Filter',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        suffixIcon: Icon(Icons.filter_list),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 20.0,
+                        ),
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -94,24 +105,67 @@ class HomeView extends GetView<HomeController> {
                 final product = homeController.products[index];
 
                 return Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      )
-                    ],
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(padding: EdgeInsets.only(top: 5)),
+                        Image.asset(
+                          product.image,
+                          width: 90,
+                          height: 50,
+                        ),
+                        SizedBox(height: 10), // Jarak antara gambar dan judul
+                        Text(
+                          product.title,
+                          style: TextStyle(
+                            fontSize:
+                                18, // Sesuaikan ukuran teks sesuai kebutuhan Anda
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                        ),
+                        Text(
+                          product.description,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '\$${product.price.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                ),
+                                Text(
+                                  product.rating.rate.toString(),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
             ),
           ),
           Align(
@@ -123,6 +177,7 @@ class HomeView extends GetView<HomeController> {
                     // Tambahkan logika ketika tombol "Add Product" ditekan
                   },
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 128, 44, 110),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),

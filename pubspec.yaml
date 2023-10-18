@@ -21,11 +21,25 @@ flutter:
 
   assets:
   - assets/images/logo.png
-  # - assets/images/
+  - assets/images/product1.png
+  - assets/images/product2.png
+  - assets/images/product3.png
+  - assets/images/product4.png
+  - assets/images/product5.png
+  - assets/images/product6.png
+  - assets/images/OBJECTS.png
 
-  # fonts:
-  #   - family: Poppins
-  #     fonts: 
-  #       - asset: assets/fonts/Poppins-Black.ttf
-  #         weight: 700
+  fonts:
+    - family: Poppins
+      fonts: 
+        - asset: assets/fonts/Poppins-Regular.ttf
+    - family: Poppins Medium
+      fonts: 
+        - asset: assets/fonts/Poppins-Medium.ttf
+    - family: Poppins Bold
+      fonts: 
+        - asset: assets/fonts/Poppins-Bold.ttf
+    - family: Poppins Extra Bold
+      fonts: 
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
 
