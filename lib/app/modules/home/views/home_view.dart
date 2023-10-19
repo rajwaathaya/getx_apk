@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_apk/app/modules/detail/views/detail_view.dart';
+import 'package:getx_apk/app/routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -25,7 +26,7 @@ class HomeView extends GetView<HomeController> {
             Text(
               'Rajwa Store',
               style: TextStyle(
-                color: Colors.black,
+                color: Color.fromARGB(255, 128, 44, 110),
                 fontFamily: 'Poppins Extra Bold',
               ),
             ),
@@ -42,11 +43,11 @@ class HomeView extends GetView<HomeController> {
               children: [
                 // SEACRH
                 Expanded(
-                  flex: 2,
+                  flex: 5,
                   child: Container(
-                    width: 373,
+                    width: double.infinity,
                     height: 36,
-                    margin: EdgeInsets.only(top: 10),
+                    margin: EdgeInsets.only(top: 3),
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: 'Search Product',
@@ -63,22 +64,21 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
 
-                SizedBox(width: 10),
-
                 // FILTER
                 Flexible(
-                  flex: 1,
+                  flex: 3,
                   child: Container(
                     width: 101,
                     height: 36,
-                    margin: EdgeInsets.only(top: 10),
+                    margin: EdgeInsets.only(top: 3),
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: 'Filter',
+                        hintStyle: TextStyle(fontFamily: 'Poppins'),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        suffixIcon: Icon(Icons.filter_list),
+                        suffixIcon: Icon(Icons.filter_alt_outlined),
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 10.0,
                           horizontal: 20.0,
@@ -96,72 +96,101 @@ class HomeView extends GetView<HomeController> {
             child: GridView.builder(
               padding: EdgeInsets.all(20),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 6.5 / 8.8,
                 crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
               ),
               itemCount: 6,
               itemBuilder: (context, index) {
                 final product = homeController.products[index];
 
-                return Container(
-                  child: Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(padding: EdgeInsets.only(top: 5)),
-                        Image.asset(
-                          product.image,
-                          width: 90,
-                          height: 50,
-                        ),
-                        SizedBox(height: 10), // Jarak antara gambar dan judul
-                        Text(
-                          product.title,
-                          style: TextStyle(
-                            fontSize:
-                                18, // Sesuaikan ukuran teks sesuai kebutuhan Anda
-                            fontWeight: FontWeight.bold,
+                return GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.DETAIL,
+                        arguments: controller.products[index]);
+                    // Get.to(DetailView(detailProduct: product))
+                  },
+                  child: Container(
+                    child: Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(padding: EdgeInsets.only(top: 5)),
+                          Image.asset(
+                            product.image,
+                            fit: BoxFit.contain,
                           ),
-                          maxLines: 1,
-                        ),
-                        Text(
-                          product.description,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '\$${product.price.toStringAsFixed(2)}',
+                          SizedBox(height: 10), // Jarak antara gambar dan judul
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Text(
+                              product.title,
                               style: TextStyle(
-                                fontSize: 16,
+                                overflow: TextOverflow.ellipsis,
+                                fontSize:
+                                    15, // Sesuaikan ukuran teks sesuai kebutuhan Anda
                                 fontWeight: FontWeight.bold,
+                                fontFamily: 'Poppins Bold',
                               ),
+                              maxLines: 1,
                             ),
-                            Row(
+                          ),
+                          SizedBox(height: 5),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Text(
+                              product.description,
+                              style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 10,
+                                color: Colors.black,
+                                fontFamily: 'Poppins',
+                              ),
+                              maxLines: 2,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                ),
                                 Text(
-                                  product.rating.rate.toString(),
+                                  '\$${product.price.toStringAsFixed(2)}',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Poppins Bold',
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: Color.fromARGB(255, 255, 215, 0),
+                                        size: 18,
+                                      ),
+                                      SizedBox(width: 3),
+                                      Text(
+                                        product.rating.rate.toString(),
+                                        style: TextStyle(
+                                            fontSize: 11,
+                                            fontFamily: 'Poppins Medium'),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );

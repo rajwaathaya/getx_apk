@@ -167,11 +167,9 @@ class DetailView extends GetView<DetailController> {
                         Padding(
                           padding: EdgeInsets.only(left: 10),
                           child: Icon(
-                            Icons
-                                .label, // Icon label (sesuaikan dengan ikon yang Anda inginkan)
-                            color: Color.fromARGB(
-                                255, 128, 44, 110), // Warna ikon label
-                            size: 13, // Sesuaikan ukuran ikon
+                            Icons.sell_rounded,
+                            color: Color.fromARGB(255, 128, 44, 110),
+                            size: 13,
                           ),
                         ),
                         SizedBox(width: 5),
@@ -199,7 +197,6 @@ class DetailView extends GetView<DetailController> {
         children: [
           FloatingActionButton(
             onPressed: () {
-              // Arahkan ke halaman form dengan data produk yang akan diedit
               // Get.to(() => FormView(product: product));
             },
             backgroundColor: Color.fromARGB(255, 255, 217, 0),
