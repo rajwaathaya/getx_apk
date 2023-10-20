@@ -34,7 +34,7 @@ class FormView extends GetView<FormController> {
               width: 8,
             ),
             Text(
-              'Rajwa Store',
+              'Fake Store',
               style: TextStyle(
                 color: Color.fromARGB(255, 128, 44, 110),
                 fontFamily: 'Poppins Extra Bold',

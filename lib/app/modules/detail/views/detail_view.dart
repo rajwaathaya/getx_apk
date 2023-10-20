@@ -5,10 +5,11 @@ import 'package:get/get.dart';
 import '../controllers/detail_controller.dart';
 
 class DetailView extends GetView<DetailController> {
-  const DetailView({Key? key}) : super(key: key);
+  DetailView({Key? key}) : super(key: key);
+  Product product = Get.arguments ?? Product();
   @override
   Widget build(BuildContext context) {
-    final Product product = controller.products[0];
+    // final Product product = controller.products[0];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -24,7 +25,7 @@ class DetailView extends GetView<DetailController> {
               width: 8,
             ),
             Text(
-              'Rajwa Store',
+              'Fake Store',
               style: TextStyle(
                 color: Color.fromARGB(255, 128, 44, 110),
                 fontFamily: 'Poppins Extra Bold',
@@ -41,7 +42,7 @@ class DetailView extends GetView<DetailController> {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                width: 340, // Sesuaikan ukuran gambar sesuai kebutuhan Anda
+                width: 340,
                 height: 210,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
@@ -52,25 +53,30 @@ class DetailView extends GetView<DetailController> {
                         blurRadius: 4,
                         offset: Offset(0, 4),
                       )
-                    ]), // Sesuaikan ukuran gambar sesuai kebutuhan Anda
+                    ]),
                 child: Padding(
                   padding: EdgeInsets.only(top: 5, bottom: 5),
                   child: Image.asset(
-                    product.image,
+                    product.image ?? '',
                     fit: BoxFit.fitHeight,
                   ),
                 ),
               ),
             ),
+
+            //TITLE
             SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.only(left: 20, right: 50),
-              child: Text(
-                product.title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Poppins Medium',
-                  fontWeight: FontWeight.bold,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Text(
+                  product.title ?? '',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Poppins Medium',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -79,18 +85,17 @@ class DetailView extends GetView<DetailController> {
               padding: EdgeInsets.only(left: 20),
               child: Row(
                 children: [
-                  for (var i = 0; i < 5; i++)
+                  for (var i = 0; i < 4; i++)
                     Icon(
                       Icons.star,
-                      color: i < (product.rating.rate.round())
+                      color: i < ((product.rating?.rate ?? 0).round())
                           ? Color.fromARGB(255, 255, 217, 0)
                           : Colors.grey,
                       size: 17,
                     ),
-                  SizedBox(
-                      width: 5), // Memberi jarak antara ikon bintang dan teks
+                  SizedBox(width: 5),
                   Text(
-                    '${product.rating.rate} (${product.rating.count} ratings)',
+                    '${product.rating?.rate} (${product.rating?.count} ratings)',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey,
@@ -107,7 +112,7 @@ class DetailView extends GetView<DetailController> {
               child: Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: Text(
-                  '\$${product.price.toStringAsFixed(2)}',
+                  '\$${(product.price ?? 0).toStringAsFixed(2)}',
                   style: TextStyle(
                     fontSize: 14,
                     fontFamily: 'Poppins Medium',
@@ -137,7 +142,7 @@ class DetailView extends GetView<DetailController> {
               child: Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: Text(
-                  product.description,
+                  product.description ?? '',
                   style: TextStyle(
                     fontSize: 10,
                     fontFamily: 'Poppins',
@@ -163,18 +168,16 @@ class DetailView extends GetView<DetailController> {
                   ),
                   child: Center(
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Icon(
-                            Icons.sell_rounded,
-                            color: Color.fromARGB(255, 128, 44, 110),
-                            size: 13,
-                          ),
+                        Icon(
+                          Icons.sell_rounded,
+                          color: Color.fromARGB(255, 128, 44, 110),
+                          size: 13,
                         ),
                         SizedBox(width: 5),
                         Text(
-                          product.category,
+                          product.category ?? '',
                           style: TextStyle(
                             fontSize: 10,
                             fontFamily: 'Poppins',
@@ -192,6 +195,8 @@ class DetailView extends GetView<DetailController> {
           ],
         ),
       ),
+
+      //EDIT
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -202,112 +207,125 @@ class DetailView extends GetView<DetailController> {
             backgroundColor: Color.fromARGB(255, 255, 217, 0),
             child: Icon(Icons.edit),
           ),
+
+          //DIALOG HAPUS
           SizedBox(height: 16),
           FloatingActionButton(
             backgroundColor: Color.fromARGB(255, 202, 32, 35),
             onPressed: () {
               // Tampilkan dialog konfirmasi untuk menghapus
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
+              Get.dialog(
+                Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Container(
+                    width: 250,
+                    height: 280,
+                    child: Stack(
                       children: [
                         Container(
-                          color: Colors.purple, // Warna atas (ungu)
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Icon(
-                                Icons.question_answer,
-                                color: Colors.white, // Warna ikon atas (putih)
-                                size: 48,
-                              ),
+                          width: double.infinity,
+                          height: 110,
+                          decoration: BoxDecoration(
+                            color: Color(0xffF2D2EB),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
                             ),
                           ),
                         ),
-                        Container(
-                          color: Colors.white, // Warna bawah (putih)
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 20, bottom: 10),
+                                child: Icon(
+                                  Icons.help_outline_outlined,
+                                  color: Color.fromARGB(255, 128, 44,
+                                      110), // Warna ikon atas (putih)
+                                  size: 70,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 25),
+                            Container(
+                              padding: EdgeInsets.only(left: 30, right: 30),
+                              child: Text(
+                                'Are you sure?',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins Bold',
+                                  color: Color(0xff802c6e),
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Container(
+                              padding: EdgeInsets.only(left: 30, right: 30),
+                              child: Text(
+                                'Do you really want to delete this product? You will not be able to undo this action!',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Color(0xff802c6e),
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            ButtonBar(
+                              alignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(
-                                  "Are you Sure?",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    side: BorderSide(
+                                      color: Color(0xff802c6e),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    fixedSize: Size(100, 15),
+                                  ),
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    'No',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins Regular',
+                                      color: Color(0xff802c6e),
+                                    ),
                                   ),
                                 ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Do you really want to delete this product? You will not be able to undo this action!',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SizedBox(height: 20),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Container(
-                                      width: 100,
-                                      child: TextButton(
-                                        onPressed: () {
-                                          // Tambahkan logika untuk menghapus produk
-                                          Navigator.pop(context);
-                                        },
-                                        style: TextButton.styleFrom(
-                                          backgroundColor:
-                                              Colors.green, // Warna tombol "Ya"
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                10.0), // Radius kotak
-                                          ),
-                                        ),
-                                        child: Text(
-                                          "Ya",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xff802c6e),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
-                                    Container(
-                                      width: 100,
-                                      child: TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        style: TextButton.styleFrom(
-                                          backgroundColor: Colors
-                                              .red, // Warna tombol "Batal"
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                10.0), // Radius kotak
-                                          ),
-                                        ),
-                                        child: Text(
-                                          "Batal",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
+                                    fixedSize: Size(100, 15),
+                                  ),
+                                  onPressed: () {},
+                                  child: Text(
+                                    'Yes',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins Regular',
+                                      color: Colors.white,
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ],
-                            ),
-                          ),
+                            )
+                          ],
                         ),
                       ],
                     ),
-                  );
-                },
+                  ),
+                ),
               );
             },
             child: Icon(Icons.delete),

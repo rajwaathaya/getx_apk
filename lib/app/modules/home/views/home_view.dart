@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_apk/app/modules/detail/views/detail_view.dart';
 import 'package:getx_apk/app/routes/app_pages.dart';
+import '../../detail/controllers/detail_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   final HomeController homeController = Get.put(HomeController());
+  Product product = Get.arguments ?? Product();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class HomeView extends GetView<HomeController> {
               width: 8,
             ),
             Text(
-              'Rajwa Store',
+              'Fake Store',
               style: TextStyle(
                 color: Color.fromARGB(255, 128, 44, 110),
                 fontFamily: 'Poppins Extra Bold',
@@ -109,7 +111,6 @@ class HomeView extends GetView<HomeController> {
                   onTap: () {
                     Get.toNamed(Routes.DETAIL,
                         arguments: controller.products[index]);
-                    // Get.to(DetailView(detailProduct: product))
                   },
                   child: Container(
                     child: Card(
@@ -121,14 +122,15 @@ class HomeView extends GetView<HomeController> {
                         children: [
                           Padding(padding: EdgeInsets.only(top: 5)),
                           Image.asset(
-                            product.image,
-                            fit: BoxFit.contain,
+                            product.image ?? '',
+                            height: 100,
+                            width: 70,
                           ),
                           SizedBox(height: 10), // Jarak antara gambar dan judul
                           Padding(
                             padding: const EdgeInsets.only(left: 8, right: 8),
                             child: Text(
-                              product.title,
+                              product.title ?? '',
                               style: TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 fontSize:
@@ -143,7 +145,7 @@ class HomeView extends GetView<HomeController> {
                           Padding(
                             padding: const EdgeInsets.only(left: 8, right: 8),
                             child: Text(
-                              product.description,
+                              product.description ?? '',
                               style: TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 fontSize: 10,
@@ -160,7 +162,7 @@ class HomeView extends GetView<HomeController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '\$${product.price.toStringAsFixed(2)}',
+                                  '\$${(product.price ?? 0).toStringAsFixed(2)}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Poppins Bold',
@@ -178,7 +180,7 @@ class HomeView extends GetView<HomeController> {
                                       ),
                                       SizedBox(width: 3),
                                       Text(
-                                        product.rating.rate.toString(),
+                                        (product.rating?.rate ?? 0).toString(),
                                         style: TextStyle(
                                             fontSize: 11,
                                             fontFamily: 'Poppins Medium'),
@@ -203,7 +205,7 @@ class HomeView extends GetView<HomeController> {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                   onPressed: () {
-                    // Tambahkan logika ketika tombol "Add Product" ditekan
+                    Get.toNamed(Routes.FORM);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 128, 44, 110),
