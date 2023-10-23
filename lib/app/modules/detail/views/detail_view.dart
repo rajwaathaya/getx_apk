@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:getx_apk/app/routes/app_pages.dart';
 
 import '../controllers/detail_controller.dart';
+import 'package:getx_apk/app/data/model.dart';
 
 class DetailView extends GetView<DetailController> {
   DetailView({Key? key}) : super(key: key);
@@ -202,7 +204,7 @@ class DetailView extends GetView<DetailController> {
         children: [
           FloatingActionButton(
             onPressed: () {
-              // Get.to(() => FormView(product: product));
+              Get.toNamed(Routes.FORM, arguments: product);
             },
             backgroundColor: Color.fromARGB(255, 255, 217, 0),
             child: Icon(Icons.edit),

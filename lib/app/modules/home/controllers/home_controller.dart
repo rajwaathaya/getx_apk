@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:getx_apk/app/modules/detail/controllers/detail_controller.dart';
+import 'package:getx_apk/app/data/model.dart';
 
 class HomeController extends GetxController {
   final count = 0.obs;

@@ -6,9 +6,29 @@ import 'package:get/get.dart';
 
 import '../controllers/form_controller.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:getx_apk/app/data/model.dart';
 
 class FormView extends GetView<FormController> {
+  final GlobalKey<FormState> formKey = GlobalKey();
+  final FormController formController = Get.put(FormController());
+  Product product = Get.arguments ?? Product();
+
+  final items = [
+    "Women's Clothes",
+    "Women's Shoes",
+    "Women's Bags",
+    "Men's Clothes",
+    "Men's Shoes",
+  ];
+
   File? image;
+
+  // final TextEditingController productNameController = TextEditingController();
+  // final TextEditingController productCategoryController =
+  //     TextEditingController();
+  // late TextEditingController productPriceController = TextEditingController();
+  // final TextEditingController productDescriptionController =
+  //     TextEditingController();
 
   Future getImage() async {
     final ImagePicker picker = ImagePicker();
@@ -19,6 +39,12 @@ class FormView extends GetView<FormController> {
 
   @override
   Widget build(BuildContext context) {
+    // if (product != null) {
+    //   productNameController.text = product.title ?? '';
+    //   // selectedCategory = product.category ?? '';
+    //   productPriceController.text = (product.price ?? 0).toString();
+    //   productDescriptionController.text = product.description ?? '';
+    // }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -120,7 +146,7 @@ class FormView extends GetView<FormController> {
                     color: Colors.grey.withOpacity(0.50),
                     blurRadius: 4,
                     offset: Offset(0, 4),
-                  )
+                  ),
                 ],
               ),
               padding: EdgeInsets.only(top: 20, left: 25, right: 25),
@@ -135,64 +161,123 @@ class FormView extends GetView<FormController> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Product Name',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 128, 44,
-                                110)), // Set the border color to purple
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Category',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 128, 44,
-                                110)), // Set the border color to purple
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Price',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 128, 44,
-                                110)), // Set the border color to purple
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  TextField(
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      labelText: 'Description',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 128, 44,
-                                110)), // Set the border color to purple
-                      ),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          // controller: productNameController,
+                          decoration: InputDecoration(
+                            labelText: 'Product Name',
+                            labelStyle:
+                                TextStyle(fontFamily: 'Poppins', fontSize: 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Color.fromARGB(255, 128, 44,
+                                      110)), // Set the border color to purple
+                            ),
+                          ),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 128, 44, 110)),
+                        ),
+                        SizedBox(height: 15),
+                        DropdownButtonFormField(
+                          isDense: true,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: Color(0xfff5f5f5),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: Color(0xff802c6e),
+                              ),
+                            ),
+                          ),
+                          value: formController.selectedValue.value.isNotEmpty
+                              ? formController.selectedValue.value
+                              : null,
+                          items: items
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                  color: Color(0xff802c6e),
+                                  fontFamily: 'Poppins',
+                                  fontSize: 15,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            if (value != null) {
+                              formController.setSelectedValue(value);
+                            }
+                          },
+                          hint: Text(
+                            'Category',
+                            style:
+                                TextStyle(fontFamily: 'Poppins', fontSize: 15),
+                          ),
+                          icon: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5),
+                            child: Icon(Icons.arrow_drop_down),
+                          ),
+                          isExpanded: true,
+                        ),
+                        SizedBox(height: 15),
+                        TextFormField(
+                          // controller: productPriceController,
+                          decoration: InputDecoration(
+                            labelText: 'Price',
+                            labelStyle:
+                                TextStyle(fontFamily: 'Poppins', fontSize: 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Color.fromARGB(255, 128, 44,
+                                      110)), // Set the border color to purple
+                            ),
+                          ),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 128, 44, 110)),
+                        ),
+                        SizedBox(height: 15),
+                        TextFormField(
+                          maxLines: null,
+                          // controller: productDescriptionController,
+                          decoration: InputDecoration(
+                            labelText: 'Description',
+                            labelStyle:
+                                TextStyle(fontFamily: 'Poppins', fontSize: 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Color.fromARGB(255, 128, 44,
+                                      110)), // Set the border color to purple
+                            ),
+                          ),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 128, 44, 110)),
+                        ),
+                      ],
                     ),
                   ),
                 ],

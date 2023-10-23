@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_apk/app/modules/detail/views/detail_view.dart';
 import 'package:getx_apk/app/routes/app_pages.dart';
-import '../../detail/controllers/detail_controller.dart';
 import '../controllers/home_controller.dart';
+import 'package:getx_apk/app/data/model.dart';
 
 class HomeView extends GetView<HomeController> {
   final HomeController homeController = Get.put(HomeController());
