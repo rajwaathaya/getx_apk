@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../controllers/form_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:getx_apk/app/data/model.dart';
+import 'package:file_picker/file_picker.dart';
 
 class FormView extends GetView<FormController> {
   final GlobalKey<FormState> formKey = GlobalKey();
@@ -177,15 +178,20 @@ class FormView extends GetView<FormController> {
 
                         //CATEGORY
                         SizedBox(height: 15),
-                        DropdownButtonFormField(
-                          //     controller: controller.categoryC,
-                          // validator: (value) => value == null || value == ''
-                          //     ? 'This field is required'
-                          //     : null,
-                          isDense: true,
+                        TextFormField(
+                          controller: controller.categoryC,
+                          validator: (value) => value == null || value == ''
+                              ? 'This field is required'
+                              : null,
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 15,
+                              color: Color(0xff802c6e)),
                           decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 15),
+                            hintText: 'Category',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide(
@@ -198,39 +204,22 @@ class FormView extends GetView<FormController> {
                                 color: Color(0xff802c6e),
                               ),
                             ),
-                          ),
-                          value: formController.selectedValue.value.isNotEmpty
-                              ? formController.selectedValue.value
-                              : null,
-                          items: items
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: TextStyle(
-                                  color: Color(0xff802c6e),
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15,
-                                ),
+                            suffixIcon: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                onChanged: (String? newValue) {
+                                  // Update the selected category.
+                                  controller.categoryC.text = newValue ?? '';
+                                },
+                                items: items.map<DropdownMenuItem<String>>(
+                                    (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
                               ),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            if (value != null) {
-                              formController.setSelectedValue(value);
-                            }
-                          },
-                          hint: Text(
-                            'Category',
-                            style:
-                                TextStyle(fontFamily: 'Poppins', fontSize: 15),
+                            ),
                           ),
-                          icon: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: Icon(Icons.arrow_drop_down),
-                          ),
-                          isExpanded: true,
                         ),
 
                         //PRICE
@@ -264,7 +253,7 @@ class FormView extends GetView<FormController> {
                         SizedBox(height: 15),
                         TextFormField(
                           maxLines: null,
-                          controller: controller.categoryC,
+                          controller: controller.descriptionC,
                           validator: (value) => value == null || value == ''
                               ? 'This field is required'
                               : null,

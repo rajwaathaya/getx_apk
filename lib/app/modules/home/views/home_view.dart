@@ -132,9 +132,7 @@ class HomeView extends GetView<HomeController> {
                                       height: 100,
                                       width: 70,
                                     ),
-                                    SizedBox(
-                                        height:
-                                            10), // Jarak antara gambar dan judul
+                                    SizedBox(height: 10),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 8, right: 8),

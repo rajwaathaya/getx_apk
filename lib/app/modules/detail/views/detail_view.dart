@@ -58,7 +58,7 @@ class DetailView extends GetView<DetailController> {
                     ]),
                 child: Padding(
                   padding: EdgeInsets.only(top: 5, bottom: 5),
-                  child: Image.asset(
+                  child: Image.network(
                     product.image ?? '',
                     fit: BoxFit.fitHeight,
                   ),
@@ -87,7 +87,7 @@ class DetailView extends GetView<DetailController> {
               padding: EdgeInsets.only(left: 20),
               child: Row(
                 children: [
-                  for (var i = 0; i < 4; i++)
+                  for (var i = 0; i < 5; i++)
                     Icon(
                       Icons.star,
                       color: i < ((product.rating?.rate ?? 0).round())
@@ -312,7 +312,7 @@ class DetailView extends GetView<DetailController> {
                                     fixedSize: Size(100, 15),
                                   ),
                                   onPressed: () {
-                                    // controller.deleteProduct(controller.listProduct[]);
+                                    controller.deleteProduct(product);
                                   },
                                   child: Text(
                                     'Yes',

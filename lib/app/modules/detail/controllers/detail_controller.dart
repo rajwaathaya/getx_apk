@@ -14,7 +14,7 @@ class DetailController extends GetxController {
   Future<void> deleteProduct(Product product) async {
     try {
       await serviceApi.deleteProduct(product.id.toString());
-      Get.snackbar('Success', 'User berhasil dihapus');
+      Get.snackbar('Success', 'Product berhasil dihapus');
     } catch (e) {
       print(e);
     }
