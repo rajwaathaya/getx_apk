@@ -311,7 +311,9 @@ class DetailView extends GetView<DetailController> {
                                     ),
                                     fixedSize: Size(100, 15),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    // controller.deleteProduct(controller.listProduct[]);
+                                  },
                                   child: Text(
                                     'Yes',
                                     style: TextStyle(

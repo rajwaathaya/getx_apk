@@ -1,8 +1,17 @@
 import 'package:get/get.dart';
 import 'package:getx_apk/app/data/model.dart';
+import 'package:getx_apk/app/data/service_api.dart';
 
 class HomeController extends GetxController {
-  final count = 0.obs;
+  RxList<Product> listProduct = <Product>[].obs;
+
+  final ServiceApi serviceApi = ServiceApi();
+
+  Future<List<Product>> loadProducts() async {
+    listProduct.value = await serviceApi.getProduct();
+    print(listProduct.length);
+    return listProduct;
+  }
 
   final List<Product> products = [
     Product(
@@ -81,6 +90,4 @@ class HomeController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

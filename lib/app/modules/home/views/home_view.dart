@@ -94,108 +94,126 @@ class HomeView extends GetView<HomeController> {
 
           // CARD
           Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.all(20),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 6.5 / 8.8,
-                crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-              ),
-              itemCount: 6,
-              itemBuilder: (context, index) {
-                final product = homeController.products[index];
+            child: FutureBuilder(
+              future: controller.loadProducts(),
+              builder: (context, snapshot) => snapshot.connectionState ==
+                      ConnectionState.waiting
+                  ? Center(child: CircularProgressIndicator())
+                  : Container(
+                      height: Get.height * 0.8,
+                      child: GridView.builder(
+                        padding: EdgeInsets.all(20),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 6.5 / 8.8,
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 15,
+                        ),
+                        itemCount: controller.listProduct.value.length,
+                        itemBuilder: (context, index) {
+                          final product = homeController.listProduct[index];
 
-                return GestureDetector(
-                  onTap: () {
-                    Get.toNamed(Routes.DETAIL,
-                        arguments: controller.products[index]);
-                  },
-                  child: Container(
-                    child: Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Column(
-                        children: [
-                          Padding(padding: EdgeInsets.only(top: 5)),
-                          Image.asset(
-                            product.image ?? '',
-                            height: 100,
-                            width: 70,
-                          ),
-                          SizedBox(height: 10), // Jarak antara gambar dan judul
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8, right: 8),
-                            child: Text(
-                              product.title ?? '',
-                              style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize:
-                                    15, // Sesuaikan ukuran teks sesuai kebutuhan Anda
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Poppins Bold',
-                              ),
-                              maxLines: 1,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8, right: 8),
-                            child: Text(
-                              product.description ?? '',
-                              style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 10,
-                                color: Colors.black,
-                                fontFamily: 'Poppins',
-                              ),
-                              maxLines: 2,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8, right: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '\$${(product.price ?? 0).toStringAsFixed(2)}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppins Bold',
-                                  ),
+                          return GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.DETAIL,
+                                  arguments: controller.listProduct[index]);
+                            },
+                            child: Container(
+                              child: Card(
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 8, right: 8),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: Color.fromARGB(255, 255, 215, 0),
-                                        size: 18,
-                                      ),
-                                      SizedBox(width: 3),
-                                      Text(
-                                        (product.rating?.rate ?? 0).toString(),
+                                child: Column(
+                                  children: [
+                                    Padding(padding: EdgeInsets.only(top: 5)),
+                                    Image.network(
+                                      product.image ?? '',
+                                      height: 100,
+                                      width: 70,
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            10), // Jarak antara gambar dan judul
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8, right: 8),
+                                      child: Text(
+                                        product.title ?? '',
                                         style: TextStyle(
-                                            fontSize: 11,
-                                            fontFamily: 'Poppins Medium'),
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize:
+                                              15, // Sesuaikan ukuran teks sesuai kebutuhan Anda
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Poppins Bold',
+                                        ),
+                                        maxLines: 1,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8, right: 8),
+                                      child: Text(
+                                        product.description ?? '',
+                                        style: TextStyle(
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 10,
+                                          color: Colors.black,
+                                          fontFamily: 'Poppins',
+                                        ),
+                                        maxLines: 2,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8, right: 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '\$${(product.price ?? 0).toStringAsFixed(2)}',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Poppins Bold',
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8, right: 8),
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Color.fromARGB(
+                                                      255, 255, 215, 0),
+                                                  size: 18,
+                                                ),
+                                                SizedBox(width: 3),
+                                                Text(
+                                                  (product.rating?.rate ?? 0)
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 11,
+                                                      fontFamily:
+                                                          'Poppins Medium'),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     ),
-                  ),
-                );
-              },
             ),
           ),
           Align(

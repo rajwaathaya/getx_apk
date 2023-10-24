@@ -23,13 +23,6 @@ class FormView extends GetView<FormController> {
 
   File? image;
 
-  // final TextEditingController productNameController = TextEditingController();
-  // final TextEditingController productCategoryController =
-  //     TextEditingController();
-  // late TextEditingController productPriceController = TextEditingController();
-  // final TextEditingController productDescriptionController =
-  //     TextEditingController();
-
   Future getImage() async {
     final ImagePicker picker = ImagePicker();
     final XFile? imagePicked =
@@ -39,12 +32,7 @@ class FormView extends GetView<FormController> {
 
   @override
   Widget build(BuildContext context) {
-    // if (product != null) {
-    //   productNameController.text = product.title ?? '';
-    //   // selectedCategory = product.category ?? '';
-    //   productPriceController.text = (product.price ?? 0).toString();
-    //   productDescriptionController.text = product.description ?? '';
-    // }
+    controller.modelToController(product);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -78,8 +66,7 @@ class FormView extends GetView<FormController> {
                 : Container(),
             Container(
               margin: EdgeInsets.all(20),
-              width: double
-                  .infinity, // Sesuaikan ukuran gambar sesuai kebutuhan Anda
+              width: double.infinity,
               height: 210,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
@@ -90,7 +77,7 @@ class FormView extends GetView<FormController> {
                       blurRadius: 4,
                       offset: Offset(0, 4),
                     )
-                  ]), // Sesuaikan ukuran gambar sesuai kebutuhan Anda
+                  ]),
               child: Image.asset(
                 'assets/images/OBJECTS.png',
                 width: 200,
@@ -135,8 +122,7 @@ class FormView extends GetView<FormController> {
             SizedBox(height: 10),
             Container(
               margin: EdgeInsets.all(20),
-              width: double
-                  .infinity, // Sesuaikan ukuran gambar sesuai kebutuhan Anda
+              width: double.infinity,
               height: 360,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
@@ -165,8 +151,12 @@ class FormView extends GetView<FormController> {
                     key: formKey,
                     child: Column(
                       children: [
+                        //NAME
                         TextFormField(
-                          // controller: productNameController,
+                          controller: controller.titleC,
+                          validator: (value) => value == null || value == ''
+                              ? 'This field is required'
+                              : null,
                           decoration: InputDecoration(
                             labelText: 'Product Name',
                             labelStyle:
@@ -184,8 +174,14 @@ class FormView extends GetView<FormController> {
                           style: TextStyle(
                               color: Color.fromARGB(255, 128, 44, 110)),
                         ),
+
+                        //CATEGORY
                         SizedBox(height: 15),
                         DropdownButtonFormField(
+                          //     controller: controller.categoryC,
+                          // validator: (value) => value == null || value == ''
+                          //     ? 'This field is required'
+                          //     : null,
                           isDense: true,
                           decoration: InputDecoration(
                             contentPadding:
@@ -236,9 +232,16 @@ class FormView extends GetView<FormController> {
                           ),
                           isExpanded: true,
                         ),
+
+                        //PRICE
                         SizedBox(height: 15),
                         TextFormField(
-                          // controller: productPriceController,
+                          controller: controller.priceC,
+                          validator: (value) => value == null || value == ''
+                              ? 'This field is required'
+                              : controller.checkIsDouble(value) == false
+                                  ? 'Wrong Value'
+                                  : null,
                           decoration: InputDecoration(
                             labelText: 'Price',
                             labelStyle:
@@ -256,10 +259,15 @@ class FormView extends GetView<FormController> {
                           style: TextStyle(
                               color: Color.fromARGB(255, 128, 44, 110)),
                         ),
+
+                        //DESC
                         SizedBox(height: 15),
                         TextFormField(
                           maxLines: null,
-                          // controller: productDescriptionController,
+                          controller: controller.categoryC,
+                          validator: (value) => value == null || value == ''
+                              ? 'This field is required'
+                              : null,
                           decoration: InputDecoration(
                             labelText: 'Description',
                             labelStyle:
@@ -283,6 +291,8 @@ class FormView extends GetView<FormController> {
                 ],
               ),
             ),
+
+            //SUBMIT
             Container(
               margin: EdgeInsets.only(left: 20, right: 20, top: 4),
               child: ElevatedButton(

@@ -1,8 +1,24 @@
 import 'package:get/get.dart';
 import 'package:getx_apk/app/data/model.dart';
+import 'package:getx_apk/app/data/service_api.dart';
 
 class DetailController extends GetxController {
-  final count = 0.obs;
+  RxList<Product> listProduct = <Product>[].obs;
+
+  final ServiceApi serviceApi = ServiceApi();
+
+  Future<List<Product>> loadUsers() async {
+    return listProduct.value = await serviceApi.getProduct();
+  }
+
+  Future<void> deleteProduct(Product product) async {
+    try {
+      await serviceApi.deleteProduct(product.id.toString());
+      Get.snackbar('Success', 'User berhasil dihapus');
+    } catch (e) {
+      print(e);
+    }
+  }
 
   final List<Product> products = [
     Product(
@@ -81,6 +97,4 @@ class DetailController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

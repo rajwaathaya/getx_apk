@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_apk/app/data/model.dart';
+import 'package:getx_apk/app/data/service_api.dart';
 
 class FormController extends GetxController {
+  ServiceApi serviceApi = ServiceApi();
   RxString imagePath = RxString('');
+
   // final Rx<Product> product = Get.arguments ?? Product();
 
-  TextEditingController productTitle = TextEditingController();
-  TextEditingController productCategory = TextEditingController();
-  TextEditingController productPrice = TextEditingController();
-  TextEditingController productDescription = TextEditingController();
+  TextEditingController titleC = TextEditingController();
+  TextEditingController categoryC = TextEditingController();
+  TextEditingController priceC = TextEditingController();
+  TextEditingController descriptionC = TextEditingController();
 
-  bool checkIsInt(String? text) {
+  bool checkIsDouble(String? text) {
     try {
-      int.parse(text ?? '');
+      double.parse(text ?? '');
       return true;
     } catch (e) {
       return false;
@@ -21,17 +24,30 @@ class FormController extends GetxController {
   }
 
   modelToController(Product product) {
-    productTitle.text = product.title ?? '';
-    productCategory.text = product.category ?? '';
-    productPrice.text = (product.price ?? '').toString();
-    productDescription.text = product.description ?? '';
+    titleC.text = product.title ?? '';
+    categoryC.text = product.category ?? '';
+    priceC.text = (product.price ?? '').toString();
+    descriptionC.text = product.description ?? '';
   }
 
   controllerToModel(Product product) {
-    product.title = productTitle.text;
-    product.category = productCategory.text;
-    // product.price = int.tryParse(productPrice.text);
+    product.title = titleC.text;
+    product.category = categoryC.text;
+    product.price = double.tryParse(priceC.text);
     return Product;
+  }
+
+  Future storeProduct(Product product, bool isUpdate) async {
+    try {
+      product = controllerToModel(product);
+      isUpdate == false
+          ? await serviceApi.createProduct(product)
+          : await serviceApi.updateProduct(product);
+      Get.back();
+      Get.snackbar('Success', 'Product berhasil disimpan');
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   var selectedValue = ''.obs;
