@@ -247,8 +247,7 @@ class DetailView extends GetView<DetailController> {
                                     const EdgeInsets.only(top: 20, bottom: 10),
                                 child: Icon(
                                   Icons.help_outline_outlined,
-                                  color: Color.fromARGB(255, 128, 44,
-                                      110), // Warna ikon atas (putih)
+                                  color: Color.fromARGB(255, 128, 44, 110),
                                   size: 70,
                                 ),
                               ),

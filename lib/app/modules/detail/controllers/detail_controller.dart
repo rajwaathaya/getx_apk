@@ -7,7 +7,7 @@ class DetailController extends GetxController {
 
   final ServiceApi serviceApi = ServiceApi();
 
-  Future<List<Product>> loadUsers() async {
+  Future<List<Product>> loadProduct() async {
     return listProduct.value = await serviceApi.getProduct();
   }
 

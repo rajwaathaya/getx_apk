@@ -22,15 +22,6 @@ class FormView extends GetView<FormController> {
     "Men's Shoes",
   ];
 
-  File? image;
-
-  Future getImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? imagePicked =
-        await picker.pickImage(source: ImageSource.gallery);
-    image = File(imagePicked!.path);
-  }
-
   @override
   Widget build(BuildContext context) {
     controller.modelToController(product);
@@ -62,28 +53,36 @@ class FormView extends GetView<FormController> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            image != null
-                ? Container(height: 100, width: 100, child: Image.file(image!))
-                : Container(),
-            Container(
-              margin: EdgeInsets.all(20),
-              width: double.infinity,
-              height: 210,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.50),
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                    )
-                  ]),
-              child: Image.asset(
-                'assets/images/OBJECTS.png',
-                width: 200,
-                height: 100,
-              ),
+            Center(
+              child: Obx(() {
+                // imgPick != ''
+                //     ? Container(
+                //         height: 100,
+                //         width: 100,
+                //         child: Image.file(File(imgPick)),
+                //       )
+                return Container(
+                    margin: EdgeInsets.all(20),
+                    width: double.infinity,
+                    height: 210,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.50),
+                            blurRadius: 4,
+                            offset: Offset(0, 4),
+                          )
+                        ]),
+                    child: controller.image.value.path == ''
+                        ? Image.asset(
+                            'assets/images/OBJECTS.png',
+                            width: 200,
+                            height: 100,
+                          )
+                        : Image.file(controller.image.value));
+              }),
             ),
             SizedBox(height: 3),
             ElevatedButton(
@@ -95,8 +94,8 @@ class FormView extends GetView<FormController> {
                   ),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20))),
-              onPressed: () async {
-                await getImage();
+              onPressed: () {
+                controller.imagePicker();
               },
               child: Row(
                 children: [

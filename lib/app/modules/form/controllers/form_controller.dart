@@ -1,11 +1,30 @@
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:getx_apk/app/data/model.dart';
 import 'package:getx_apk/app/data/service_api.dart';
+import 'package:image_picker/image_picker.dart';
 
 class FormController extends GetxController {
   ServiceApi serviceApi = ServiceApi();
-  RxString imagePath = RxString('');
+  Rx<File> image = File('').obs;
+
+  Future imagePicker() async {
+    try {
+      final imagePick =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (imagePick == null) {
+        return;
+      }
+      final imageTemp = File(imagePick.path);
+      image.value = imageTemp;
+    } on PlatformException catch (e) {
+      return e;
+    }
+  }
 
   // final Rx<Product> product = Get.arguments ?? Product();
 
@@ -117,10 +136,6 @@ class FormController extends GetxController {
       rating: Rating(rate: 4.6, count: 11),
     ),
   ];
-
-  void setImage(String imagePath) {
-    this.imagePath.value = imagePath;
-  }
 
   final count = 0.obs;
   @override
