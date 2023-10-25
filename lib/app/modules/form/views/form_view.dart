@@ -135,148 +135,154 @@ class FormView extends GetView<FormController> {
                   ),
                 ],
               ),
-              padding: EdgeInsets.only(top: 20, left: 25, right: 25),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Product Information',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'Poppins Bold',
+              padding:
+                  EdgeInsets.only(top: 20, left: 25, right: 25, bottom: 20),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Product Information',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Poppins Bold',
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        //NAME
-                        TextFormField(
-                          controller: controller.titleC,
-                          validator: (value) => value == null || value == ''
-                              ? 'This field is required'
-                              : null,
-                          decoration: InputDecoration(
-                            labelText: 'Product Name',
-                            labelStyle:
-                                TextStyle(fontFamily: 'Poppins', fontSize: 15),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 128, 44,
-                                      110)), // Set the border color to purple
-                            ),
-                          ),
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 128, 44, 110)),
-                        ),
-
-                        //CATEGORY
-                        SizedBox(height: 15),
-                        TextFormField(
-                          controller: controller.categoryC,
-                          validator: (value) => value == null || value == ''
-                              ? 'This field is required'
-                              : null,
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                              color: Color(0xff802c6e)),
-                          decoration: InputDecoration(
-                            hintText: 'Category',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                color: Color(0xfff5f5f5),
+                    SizedBox(height: 20),
+                    Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          //NAME
+                          TextFormField(
+                            controller: controller.titleC,
+                            validator: (value) => value == null || value == ''
+                                ? 'This field is required'
+                                : null,
+                            decoration: InputDecoration(
+                              labelText: 'Product Name',
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Poppins', fontSize: 15),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 128, 44,
+                                        110)), // Set the border color to purple
                               ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                color: Color(0xff802c6e),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 128, 44, 110)),
+                          ),
+
+                          //CATEGORY
+                          SizedBox(height: 15),
+                          TextFormField(
+                            controller: controller.categoryC,
+                            validator: (value) => value == null || value == ''
+                                ? 'This field is required'
+                                : null,
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 15,
+                                color: Color(0xff802c6e)),
+                            decoration: InputDecoration(
+                              hintText: 'Category',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Poppins',
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                  color: Color(0xfff5f5f5),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                  color: Color(0xff802c6e),
+                                ),
+                              ),
+                              suffixIcon: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  onChanged: (String? newValue) {
+                                    // Update the selected category.
+                                    controller.categoryC.text = newValue ?? '';
+                                  },
+                                  items: items.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value,
+                                          style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              color: Color(0xff802c6e))),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
                             ),
-                            suffixIcon: DropdownButtonHideUnderline(
-                              child: DropdownButton<String>(
-                                onChanged: (String? newValue) {
-                                  // Update the selected category.
-                                  controller.categoryC.text = newValue ?? '';
-                                },
-                                items: items.map<DropdownMenuItem<String>>(
-                                    (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
+                          ),
+
+                          //PRICE
+                          SizedBox(height: 15),
+                          TextFormField(
+                            controller: controller.priceC,
+                            validator: (value) => value == null || value == ''
+                                ? 'This field is required'
+                                : controller.checkIsDouble(value) == false
+                                    ? 'Wrong Value'
+                                    : null,
+                            decoration: InputDecoration(
+                              labelText: 'Price',
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Poppins', fontSize: 15),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 128, 44,
+                                        110)), // Set the border color to purple
                               ),
                             ),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 128, 44, 110)),
                           ),
-                        ),
 
-                        //PRICE
-                        SizedBox(height: 15),
-                        TextFormField(
-                          controller: controller.priceC,
-                          validator: (value) => value == null || value == ''
-                              ? 'This field is required'
-                              : controller.checkIsDouble(value) == false
-                                  ? 'Wrong Value'
-                                  : null,
-                          decoration: InputDecoration(
-                            labelText: 'Price',
-                            labelStyle:
-                                TextStyle(fontFamily: 'Poppins', fontSize: 15),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                          //DESC
+                          SizedBox(height: 15),
+                          TextFormField(
+                            maxLines: null,
+                            controller: controller.descriptionC,
+                            validator: (value) => value == null || value == ''
+                                ? 'This field is required'
+                                : null,
+                            decoration: InputDecoration(
+                              labelText: 'Description',
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Poppins', fontSize: 15),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 128, 44,
+                                        110)), // Set the border color to purple
+                              ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 128, 44,
-                                      110)), // Set the border color to purple
-                            ),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 128, 44, 110)),
                           ),
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 128, 44, 110)),
-                        ),
-
-                        //DESC
-                        SizedBox(height: 15),
-                        TextFormField(
-                          maxLines: null,
-                          controller: controller.descriptionC,
-                          validator: (value) => value == null || value == ''
-                              ? 'This field is required'
-                              : null,
-                          decoration: InputDecoration(
-                            labelText: 'Description',
-                            labelStyle:
-                                TextStyle(fontFamily: 'Poppins', fontSize: 15),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 128, 44,
-                                      110)), // Set the border color to purple
-                            ),
-                          ),
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 128, 44, 110)),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
 
