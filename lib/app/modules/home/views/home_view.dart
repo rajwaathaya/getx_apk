@@ -52,6 +52,7 @@ class HomeView extends GetView<HomeController> {
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: 'Search Product',
+                        hintStyle: TextStyle(fontFamily: 'Poppins'),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -140,8 +141,7 @@ class HomeView extends GetView<HomeController> {
                                         product.title ?? '',
                                         style: TextStyle(
                                           overflow: TextOverflow.ellipsis,
-                                          fontSize:
-                                              15, // Sesuaikan ukuran teks sesuai kebutuhan Anda
+                                          fontSize: 15,
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'Poppins Bold',
                                         ),
@@ -214,6 +214,8 @@ class HomeView extends GetView<HomeController> {
                     ),
             ),
           ),
+
+          //ADD NEW PRODUCT
           Align(
             alignment: Alignment.bottomRight,
             child: Padding(

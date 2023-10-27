@@ -25,8 +25,6 @@ class FormController extends GetxController {
     }
   }
 
-  // final Rx<Product> product = Get.arguments ?? Product();
-
   TextEditingController titleC = TextEditingController();
   TextEditingController categoryC = TextEditingController();
   TextEditingController priceC = TextEditingController();

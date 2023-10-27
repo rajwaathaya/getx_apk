@@ -60,7 +60,7 @@ class DetailView extends GetView<DetailController> {
                   padding: EdgeInsets.only(top: 5, bottom: 5),
                   child: Image.network(
                     product.image ?? '',
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -82,6 +82,8 @@ class DetailView extends GetView<DetailController> {
                 ),
               ),
             ),
+
+            //RATING
             SizedBox(height: 10),
             Padding(
               padding: EdgeInsets.only(left: 20),
@@ -106,9 +108,9 @@ class DetailView extends GetView<DetailController> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+
+            //PRICE
+            SizedBox(height: 10),
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -123,6 +125,8 @@ class DetailView extends GetView<DetailController> {
                 ),
               ),
             ),
+
+            //P.DETAILS
             SizedBox(height: 17),
             Align(
               alignment: Alignment.centerLeft,
@@ -138,6 +142,8 @@ class DetailView extends GetView<DetailController> {
                 ),
               ),
             ),
+
+            //DESC
             SizedBox(height: 10),
             Align(
               alignment: Alignment.centerLeft,
@@ -154,6 +160,8 @@ class DetailView extends GetView<DetailController> {
                 ),
               ),
             ),
+
+            //CATEGORY
             SizedBox(height: 15),
             Align(
               alignment: Alignment.topLeft,
