@@ -50,7 +50,8 @@ class FormController extends GetxController {
     product.title = titleC.text;
     product.category = categoryC.text;
     product.price = double.tryParse(priceC.text);
-    return Product;
+    product.description = descriptionC.text;
+    return product;
   }
 
   Future storeProduct(Product product, bool isUpdate) async {

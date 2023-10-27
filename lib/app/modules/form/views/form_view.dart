@@ -76,17 +76,27 @@ class FormView extends GetView<FormController> {
                                   offset: Offset(0, 4),
                                 )
                               ]),
-                          child:
-                              // product.image != null
-                              //     ? Image.network(product.image ?? '')
-                              //     :
-                              controller.image.value.path == ''
-                                  ? Image.asset(
+                          child: (controller.image.value.path
+                                  .toString()
+                                  .isNotEmpty)
+                              ? Image.file(
+                                  File((controller.image.value.path)),
+                                  fit: BoxFit.contain,
+                                )
+                              : (product.image ?? '').isNotEmpty
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5, bottom: 5),
+                                      child: Image.network(
+                                        product.image ?? '',
+                                        fit: BoxFit.contain,
+                                      ),
+                                    )
+                                  : Image.asset(
                                       'assets/images/OBJECTS.png',
                                       width: 200,
                                       height: 100,
-                                    )
-                                  : Image.file(controller.image.value))),
+                                    ))),
 
               //UPLOAD IMAGE
               SizedBox(height: 3),
